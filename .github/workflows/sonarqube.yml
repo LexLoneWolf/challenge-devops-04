@@ -25,12 +25,12 @@
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/sq/10)
 
 name: SonarQube analysis
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [opened]
   workflow_dispatch:
 
 permissions:
@@ -71,5 +71,5 @@ jobs:
         uses: juliangruber/approve-pull-request-action@v2.0.6
         with:
           github-token: ${{ secrets.TOKEN }}
-          number: ${{ github.event.pull_request.number }}
+          number: 1
         
