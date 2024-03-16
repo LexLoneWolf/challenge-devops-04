@@ -42,7 +42,7 @@ jobs:
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on SonarQube, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
       SONAR_HOST_URL: 'http://innotech.northeurope.azurecontainer.io:9000/'   # add the URL of your instance to the secrets of this repo with the name SONAR_HOST_URL (Settings > Secrets > Actions > add new repository secret)
-      
+
     steps:
       - name: Official SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v2.0.1
@@ -65,4 +65,13 @@ jobs:
 
       - name: SonarQube Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v2.0.6
+            
+        
+      # - name: Create Jira Task
+      #   uses: atlassian/gajira-create@v2.0.1
+      #   with: 
+          
             
