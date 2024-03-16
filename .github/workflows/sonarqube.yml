@@ -2,13 +2,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
 # This workflow helps you trigger a SonarQube analysis of your code and populates
 # GitHub Code Scanning alerts with the vulnerabilities found.
 # (this feature is available starting from SonarQube 9.7, Developer Edition and above)
-
 # 1. Make sure you add a valid GitHub configuration to your SonarQube (Administration > DevOps platforms > GitHub)
-
 # 2. Import your project on SonarQube
 #     * Add your repository as a new project by clicking "Create project" from your homepage.
 #
@@ -20,10 +17,8 @@
 #
 #     * c. Copy/paste the project Key into the args parameter below
 #          (You'll find this information in SonarQube by following the tutorial or by clicking on Project Information at the top-right of your project's homepage)
-
 # Feel free to take a look at our documentation (https://docs.sonarqube.org/latest/analysis/github-integration/)
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/sq/10)
-
 name: SonarQube analysis
 on:
   push:
@@ -32,10 +27,8 @@ on:
     branches: [ "main" ]
     types: [opened]
   workflow_dispatch:
-
 permissions:
   pull-requests: write # allows SonarQube to decorate PRs with analysis results
-
 jobs:
   Analysis:
     runs-on: ubuntu-latest
@@ -44,11 +37,22 @@ jobs:
       SONAR_HOST_URL: 'http://innotech.northeurope.azurecontainer.io:9000/'   # add the URL of your instance to the secrets of this repo with the name SONAR_HOST_URL (Settings > Secrets > Actions > add new repository secret)
 
     steps:
+    
       - uses: actions/checkout@v4
+
+      - name: Official SonarQube Scan
+
+        uses: SonarSource/sonarqube-scan-action@v2.0.1
+        with:
+          # Additional arguments for the sonarcloud scanner
+          args:
+            -Dsonar.projectKey=devops-04
             
+      - name: SonarQube Quality Gate Check
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v2.0.6
         with:
           github-token: ${{ secrets.TOKEN }}
-          number: 2
-        
+          number: 1
