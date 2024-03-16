@@ -34,7 +34,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  pull-requests: read # allows SonarQube to decorate PRs with analysis results
+  pull-requests: write # allows SonarQube to decorate PRs with analysis results
 
 jobs:
   Analysis:
@@ -70,7 +70,7 @@ jobs:
         uses: juliangruber/approve-pull-request-action@v2.0.6
         with:
           github-token: ${{ secrets.TOKEN }}
-          number: 1
+          number: ${{ github.event.pull_request.number }}
         
           
             
